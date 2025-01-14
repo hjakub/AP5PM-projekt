@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Weather
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,50 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Init</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Search bar with a button -->
+  <div class="search-container">
+    <ion-searchbar 
+      placeholder="Enter city name" 
+      [(ngModel)]="searchQuery">
+    </ion-searchbar>
+    <ion-button (click)="onSearch()">Search</ion-button>
+  </div>
+
+  <!-- Display location + coordinates, temperature, or error message -->
+  <ion-card *ngIf="res?.main; else notFound">
+    <ion-item>
+      <h2>
+        {{ res.name }}, {{ res.sys.country }}
+      </h2>
+    </ion-item>
+    <ion-item>
+      <p>Coordinates: {{ res.coord.lat | number: '1.0-2' }}, {{ res.coord.lon | number: '1.0-2' }}</p>
+    </ion-item>
+    <ion-item>
+      <span>
+        <p>Temperature: {{ res.main.temp - 273.15 | number: '1.0-1' }} °C</p>
+        <p>Feels like: {{ res.main.feels_like - 273.15 | number: '1.0-1' }} °C</p>
+      </span>
+    </ion-item>
+  </ion-card>
+
+  <!-- Template for "Location not found" -->
+  <ng-template #notFound>
+    <ion-card *ngIf="errorMessage">
+      <ion-item>
+        <span>{{ errorMessage }}</span>
+      </ion-item>
+    </ion-card>
+  </ng-template>
+
+  <!-- Loading template -->
+  <ng-template #loading>
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading...</p>
+  </ng-template>
+
 </ion-content>
