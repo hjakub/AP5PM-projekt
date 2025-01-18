@@ -9,15 +9,13 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Init</ion-title>
+      <ion-title size="large">Weather</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <!-- Search bar with a button -->
   <div class="search-container">
-    <ion-searchbar 
-      placeholder="Enter city name" 
-      [(ngModel)]="searchQuery">
+    <ion-searchbar placeholder="Enter city name" [(ngModel)]="searchQuery">
     </ion-searchbar>
     <ion-button (click)="onSearch()">Search</ion-button>
   </div>
@@ -30,7 +28,7 @@
       </h2>
     </ion-item>
     <ion-item>
-      <p>Coordinates: {{ res.coord.lat | number: '1.0-2' }}, {{ res.coord.lon | number: '1.0-2' }}</p>
+      <p>Coordinates: {{ res.coord.lat | number: '1.0-3' }}, {{ res.coord.lon | number: '1.0-3' }}</p>
     </ion-item>
     <ion-item>
       <span>

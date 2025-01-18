@@ -1,0 +1,1 @@
+export const WEATHER_HISTORY = 'weather_history';
