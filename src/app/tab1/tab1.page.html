@@ -24,16 +24,25 @@
   <ion-card *ngIf="res?.main; else notFound">
     <ion-item>
       <h2>
-        {{ res.name }}, {{ res.sys.country }}
+        <ion-icon name="location"></ion-icon>{{ res.name }}, {{ res.sys.country }}
       </h2>
     </ion-item>
     <ion-item>
-      <p>Coordinates: {{ res.coord.lat | number: '1.0-3' }}, {{ res.coord.lon | number: '1.0-3' }}</p>
+      <p><b>Coordinates:</b> {{ res.coord.lat | number: '1.0-3' }}, {{ res.coord.lon | number: '1.0-3' }}</p>
     </ion-item>
     <ion-item>
       <span>
-        <p>Temperature: {{ convertTemp(res.main.temp) }} </p>
-        <p>Feels like: Feels like: {{ convertTemp(res.main.feels_like) }} </p>
+        <p><b>Temperature:</b> {{ convertTemp(res.main.temp) }} </p>
+        <p><b>Feels like:</b> {{ convertTemp(res.main.feels_like) }} </p>
+        <p><b>Current weather:</b> {{ res.weather[0].main }} </p>
+        <p><b>Humidity:</b> {{ res.main.humidity }} % </p>
+        <p><b>Pressure:</b> {{ res.main.pressure }} hPa </p>
+        <p><b>Minimum temperature:</b> {{ convertTemp(res.main.temp_min) }} </p>
+        <p><b>Maximum temperature:</b> {{ convertTemp(res.main.temp_max) }} </p>
+        <p><b>Wind speed:</b> {{ res.wind.speed | number: '1.0-2' }} m/s </p>
+        <p><b>Visibility:</b> {{ res.visibility }} m </p>
+        <p><b>Sunrise:</b> {{ (res.sys.sunrise * 1000) | date: 'HH:mm' }} </p>
+        <p><b>Sunset:</b> {{ (res.sys.sunset * 1000) | date: 'HH:mm' }} </p>
       </span>
     </ion-item>
   </ion-card>
