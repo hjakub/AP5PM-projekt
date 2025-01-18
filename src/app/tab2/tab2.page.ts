@@ -54,4 +54,10 @@ export class Tab2Page {
       this.appStorage.set(WEATHER_HISTORY, this.weatherHistory);
     }
   }
+
+  // Clears the entire search history
+  clearHistory() {
+    this.weatherHistory = [];
+    this.appStorage.set(WEATHER_HISTORY, []);
+  }
 }

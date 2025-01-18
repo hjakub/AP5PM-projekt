@@ -5,6 +5,7 @@ import { AppStorageService } from '../app-storage.service';
 import { WEATHER_HISTORY } from '../app.constants';
 import { WeatherSearch } from '../model/weather-search';
 import { Subscription } from 'rxjs';
+import { Geolocation } from '@capacitor/geolocation';
 
 const API_KEY = environment.api_key;
 const API_URL = environment.api_url;
@@ -25,9 +26,8 @@ export class Tab1Page implements OnInit, OnDestroy {
 
   constructor(private appStorage: AppStorageService, public httpClient: HttpClient) { }
 
-  // Default location displayed after reloading
   ngOnInit() {
-    this.loadWeather('Ostrava');
+    this.getUserLocation();
     this.listenForTempUnitChanges();
   }
 
@@ -37,7 +37,22 @@ export class Tab1Page implements OnInit, OnDestroy {
     }
   }
 
-  // Listen for unit changes
+  // Gets users coordinates or displays error if permission is denied
+  async getUserLocation() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      const lat = coordinates.coords.latitude;
+      const lon = coordinates.coords.longitude;
+
+      console.log('User location: ', lat, lon);
+      this.loadWeatherByCoords(lat, lon);
+    } catch (error) {
+      console.error('Error getting location: ', error);
+      this.errorMessage = 'Permission denied.';
+    }
+  }
+
+  // Listens for unit changes
   listenForTempUnitChanges() {
     this.tempUnitSubscription = this.appStorage.tempUnit$.subscribe((unit) => {
       this.tempUnit = unit;
@@ -71,10 +86,25 @@ export class Tab1Page implements OnInit, OnDestroy {
         await this.appStorage.set(WEATHER_HISTORY, weatherHistory);
       },
       error: (error) => {
-        console.error('API Error:', error);
+        console.error('API Error: ', error);
         this.res = null;
-        this.errorMessage = 'Location not found';
+        this.errorMessage = 'Location not found.';
       },
+    });
+  }
+
+  // Loads weather by coordinates instead of a place name
+  async loadWeatherByCoords(lat: number, lon: number) {
+    this.httpClient.get(`${API_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`).subscribe({
+      next: (results) => {
+        this.res = results;
+        this.errorMessage = '';
+      },
+      error: (error) => {
+        console.error('API Error: ', error);
+        this.res = null;
+        this.errorMessage = 'Location not found.';
+      }
     });
   }
 

@@ -13,6 +13,9 @@
     </ion-toolbar>
   </ion-header>
 
+  <!-- Clear the entire history -->
+  <ion-button expand="full" color="danger" (click)="clearHistory()">Clear History</ion-button>
+
   <!-- Display weather search history grouped by date -->
   <ion-list>
     <ion-item-group *ngFor="let group of weatherHistory | groupByDate">
