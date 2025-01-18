@@ -16,14 +16,14 @@
   <!-- Display weather search history grouped by date -->
   <ion-list>
     <ion-item-group *ngFor="let group of weatherHistory | groupByDate">
-      <ion-item-divider color="light"> 
+      <ion-item-divider color="light">
         {{ group.date | date: 'dd.MM.yyyy' }}
       </ion-item-divider>
       <ion-item-sliding *ngFor="let search of group.items" (ionSwipe)="deleteSearch(search)">
         <ion-item>
           <ion-label>
             <h2>{{ search.city }}, {{ search.country }}</h2>
-            <h2>{{ search.temp }}</h2>
+            <h2>{{ convertTemp(search.temp) }}</h2>
             <p>{{ search.date | date: 'dd.MM.yyyy, HH:mm:ss' }}</p>
           </ion-label>
         </ion-item>

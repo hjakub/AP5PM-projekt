@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppStorageService } from '../app-storage.service';
 
 @Component({
   selector: 'app-tab3',
@@ -7,7 +8,18 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class Tab3Page {
+  selectedUnit: string = 'celsius';
 
-  constructor() {}
+  constructor(private appStorage: AppStorageService) { }
 
+  async ionViewDidEnter() {
+    const savedUnit = await this.appStorage.get('TEMP_UNIT');
+    if (savedUnit) {
+      this.selectedUnit = savedUnit;
+    }
+  }
+
+  async onUnitChange() {
+    await this.appStorage.set('TEMP_UNIT', this.selectedUnit);
+  }
 }

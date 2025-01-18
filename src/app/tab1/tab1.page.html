@@ -32,8 +32,8 @@
     </ion-item>
     <ion-item>
       <span>
-        <p>Temperature: {{ res.main.temp - 273.15 | number: '1.0-1' }} °C</p>
-        <p>Feels like: {{ res.main.feels_like - 273.15 | number: '1.0-1' }} °C</p>
+        <p>Temperature: {{ convertTemp(res.main.temp) }} </p>
+        <p>Feels like: Feels like: {{ convertTemp(res.main.feels_like) }} </p>
       </span>
     </ion-item>
   </ion-card>
@@ -47,8 +47,8 @@
     </ion-card>
   </ng-template>
 
-  <!-- Loading template -->
-  <ng-template #loading>
+  <!-- Loading spinner -->
+  <ng-template [ngIf]="isLoading">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Loading...</p>
   </ng-template>
