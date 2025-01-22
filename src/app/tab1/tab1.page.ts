@@ -23,6 +23,7 @@ export class Tab1Page implements OnInit, OnDestroy {
   isLoading: boolean = false;
   tempUnit: string = 'celsius';
   tempUnitSubscription!: Subscription;
+  icon: any;
 
   constructor(private appStorage: AppStorageService, public httpClient: HttpClient) { }
 
@@ -43,12 +44,10 @@ export class Tab1Page implements OnInit, OnDestroy {
       const coordinates = await Geolocation.getCurrentPosition();
       const lat = coordinates.coords.latitude;
       const lon = coordinates.coords.longitude;
-
-      console.log('User location: ', lat, lon);
       this.loadWeatherByCoords(lat, lon);
     } catch (error) {
       console.error('Error getting location: ', error);
-      this.errorMessage = 'Permission denied.';
+      this.errorMessage = ' Permission denied. Search manually.';
     }
   }
 
@@ -77,6 +76,7 @@ export class Tab1Page implements OnInit, OnDestroy {
       next: async (results) => {
         this.res = results;
         this.errorMessage = '';
+        this.icon = (`https://openweathermap.org/img/wn/${this.res.weather[0].icon}@1x.png`);
 
         // Save search to history
         const now = new Date();
@@ -84,11 +84,12 @@ export class Tab1Page implements OnInit, OnDestroy {
         const searchItem = new WeatherSearch(this.res.name, this.res.sys.country, this.res.main.temp, new Date(now.getTime()));
         weatherHistory.push(searchItem);
         await this.appStorage.set(WEATHER_HISTORY, weatherHistory);
+        console.log(results);
       },
       error: (error) => {
         console.error('API Error: ', error);
         this.res = null;
-        this.errorMessage = 'Location not found.';
+        this.errorMessage = ' Location not found.';
       },
     });
   }
@@ -99,11 +100,12 @@ export class Tab1Page implements OnInit, OnDestroy {
       next: (results) => {
         this.res = results;
         this.errorMessage = '';
+        this.icon = (`https://openweathermap.org/img/wn/${this.res.weather[0].icon}@4x.png`);
       },
       error: (error) => {
         console.error('API Error: ', error);
         this.res = null;
-        this.errorMessage = 'Location not found.';
+        this.errorMessage = ' Location not found.';
       }
     });
   }
@@ -116,9 +118,15 @@ export class Tab1Page implements OnInit, OnDestroy {
       this.loadWeather(city);
       this.isLoading = false;
     } else {
-      this.errorMessage = 'Location not found';
+      this.errorMessage = 'Location not found.';
       this.res = null;
       this.isLoading = false;
     }
+  }
+
+  // Converts to local time (used for sunrise and sunset)
+  convertToLocalTime(utcTimestamp: number, timezoneOffset: number): string {
+    const localTime = new Date((utcTimestamp + timezoneOffset) * 1000);
+    return localTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
   }
 }

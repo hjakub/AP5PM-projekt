@@ -1,48 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Weather
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Weather</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <!-- Search bar with a button -->
   <div class="search-container">
-    <ion-searchbar placeholder="Enter city name" [(ngModel)]="searchQuery">
+    <ion-searchbar placeholder="Enter location" [(ngModel)]="searchQuery" animated="true" search-icon="location">
     </ion-searchbar>
-    <ion-button (click)="onSearch()">Search</ion-button>
+    <ion-button (click)="onSearch()"> <ion-icon slot="icon-only" name="search"></ion-icon></ion-button>
   </div>
 
   <!-- Display location + coordinates, temperature, or error message -->
   <ion-card *ngIf="res?.main; else notFound">
     <ion-item>
-      <h2>
-        <ion-icon name="location"></ion-icon>{{ res.name }}, {{ res.sys.country }}
-      </h2>
+      <div class="info-main">
+        <h3 class="loc">{{ res.name }}, {{ res.sys.country }}</h3>
+        <img src="assets/img/{{res.weather[0].icon}}.png" class="w-icon">
+        <p class="main-w">{{ res.weather[0].main }}</p>
+        <p class="main-temp">{{ convertTemp(res.main.temp) }}</p>
+        <div class="temp-container">
+          <p class="temp-side"><ion-icon name="arrow-up-outline"></ion-icon>{{ convertTemp(res.main.temp_max) }}</p>
+          <p class="divider">|</p>
+          <p class="temp-side"><ion-icon name="arrow-down-outline"></ion-icon>{{ convertTemp(res.main.temp_min) }}</p>
+          <p class="divider">|</p>
+          <p class="temp-side"><ion-icon name="body-outline"></ion-icon>{{ convertTemp(res.main.feels_like) }}</p>
+        </div>
+      </div>
     </ion-item>
-    <ion-item>
-      <p><b>Coordinates:</b> {{ res.coord.lat | number: '1.0-3' }}, {{ res.coord.lon | number: '1.0-3' }}</p>
-    </ion-item>
-    <ion-item>
+    <ion-item class="add-info">
       <span>
-        <p><b>Temperature:</b> {{ convertTemp(res.main.temp) }} </p>
-        <p><b>Feels like:</b> {{ convertTemp(res.main.feels_like) }} </p>
-        <p><b>Current weather:</b> {{ res.weather[0].main }} </p>
+        <h3><ion-icon name="information-circle-outline"></ion-icon>Additional info</h3>
+        <p><b>Visibility:</b> {{ res.visibility }} m </p>
         <p><b>Humidity:</b> {{ res.main.humidity }} % </p>
         <p><b>Pressure:</b> {{ res.main.pressure }} hPa </p>
-        <p><b>Minimum temperature:</b> {{ convertTemp(res.main.temp_min) }} </p>
-        <p><b>Maximum temperature:</b> {{ convertTemp(res.main.temp_max) }} </p>
         <p><b>Wind speed:</b> {{ res.wind.speed | number: '1.0-2' }} m/s </p>
-        <p><b>Visibility:</b> {{ res.visibility }} m </p>
-        <p><b>Sunrise:</b> {{ (res.sys.sunrise * 1000) | date: 'HH:mm' }} </p>
-        <p><b>Sunset:</b> {{ (res.sys.sunset * 1000) | date: 'HH:mm' }} </p>
+        <p><b>Sunrise:</b> {{ convertToLocalTime(res.sys.sunrise, res.timezone) }} </p>
+        <p><b>Sunset:</b> {{ convertToLocalTime(res.sys.sunset, res.timezone) }} </p>
       </span>
     </ion-item>
   </ion-card>
@@ -51,15 +40,16 @@
   <ng-template #notFound>
     <ion-card *ngIf="errorMessage">
       <ion-item>
-        <span>{{ errorMessage }}</span>
+        <span><ion-icon name="warning-outline"></ion-icon>{{ errorMessage }}</span>
       </ion-item>
     </ion-card>
   </ng-template>
 
   <!-- Loading spinner -->
   <ng-template [ngIf]="isLoading">
-    <ion-spinner name="crescent"></ion-spinner>
-    <p>Loading...</p>
+    <ion-item>
+      <ion-spinner name="crescent"></ion-spinner>
+    </ion-item>
   </ng-template>
 
 </ion-content>

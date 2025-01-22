@@ -1,18 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Search History
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Search History</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <!-- Clear the entire history -->
   <ion-button expand="full" color="danger" (click)="clearHistory()">Clear History</ion-button>
 
@@ -33,7 +19,7 @@
 
         <ion-item-options side="end">
           <ion-item-option color="danger">
-            Delete
+            <h2><ion-icon name="trash-outline"></ion-icon></h2>
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
