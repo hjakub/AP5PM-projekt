@@ -1,7 +1,7 @@
 export class WeatherSearch {
     city: string;
     country: string;
-    temp: any;
+    temp: number;
     date: Date;
 
     constructor(city: string, country: string, temp: number, date: Date = new Date()) {

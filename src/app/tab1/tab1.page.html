@@ -59,7 +59,7 @@
   </ng-template>
 
   <!-- Loading spinner -->
-  <ng-template [ngIf]="isLoading">
+  <ng-template *ngIf="isLoading">
     <ion-item>
       <ion-spinner name="crescent"></ion-spinner>
     </ion-item>
