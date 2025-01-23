@@ -1,4 +1,17 @@
-<ion-content [fullscreen]="true">
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Weather
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><ion-icon aria-hidden="true" name="partly-sunny-outline"></ion-icon> Weather</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <!-- Search bar with a button -->
   <div class="search-container">
     <ion-searchbar placeholder="Enter location" [(ngModel)]="searchQuery" animated="true" search-icon="location">
@@ -25,11 +38,11 @@
     </ion-item>
     <ion-item class="add-info">
       <span>
-        <h3><ion-icon name="information-circle-outline"></ion-icon>Additional info</h3>
-        <p><b>Visibility:</b> {{ res.visibility }} m </p>
+        <h3>Additional info</h3>
         <p><b>Humidity:</b> {{ res.main.humidity }} % </p>
         <p><b>Pressure:</b> {{ res.main.pressure }} hPa </p>
         <p><b>Wind speed:</b> {{ res.wind.speed | number: '1.0-2' }} m/s </p>
+        <p><b>Visibility:</b> {{ res.visibility }} m </p>
         <p><b>Sunrise:</b> {{ convertToLocalTime(res.sys.sunrise, res.timezone) }} </p>
         <p><b>Sunset:</b> {{ convertToLocalTime(res.sys.sunset, res.timezone) }} </p>
       </span>
@@ -38,7 +51,7 @@
 
   <!-- Template for "Location not found" -->
   <ng-template #notFound>
-    <ion-card *ngIf="errorMessage">
+    <ion-card *ngIf="errorMessage" class="not-found">
       <ion-item>
         <span><ion-icon name="warning-outline"></ion-icon>{{ errorMessage }}</span>
       </ion-item>

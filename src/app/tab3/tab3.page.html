@@ -1,5 +1,19 @@
-<ion-content [fullscreen]="true">
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Settings
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><ion-icon aria-hidden="true" name="cog-outline"></ion-icon> Settings</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <ion-list>
+    <!-- Change temp unit -->
     <ion-item>
       <ion-label>Temperature Unit</ion-label>
       <ion-select [(ngModel)]="selectedUnit" (ionChange)="onUnitChange()">
@@ -8,5 +22,10 @@
         <ion-select-option value="kelvin">Kelvin (K)</ion-select-option>
       </ion-select>
     </ion-item>
+
+    <!-- Change theme -->
+    <ion-item>
+      <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">Dark Mode</ion-toggle>
+  </ion-item>
   </ion-list>
 </ion-content>

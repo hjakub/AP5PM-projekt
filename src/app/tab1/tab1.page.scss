@@ -5,7 +5,7 @@
 .search-container {
     display: flex;
     align-items: center;
-    width: 97%;
+    width: 100%;
     margin: 0 auto;
     justify-content: center;
 }
@@ -79,4 +79,13 @@ ion-button {
 .add-info ion-icon {
     vertical-align: middle;
     margin-right: 5px;
+}
+
+.not-found ion-icon {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.add-info h3 {
+    font-weight: bold;
 }

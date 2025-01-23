@@ -1,4 +1,17 @@
-<ion-content [fullscreen]="true">
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Search history
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><ion-icon aria-hidden="true" name="time-outline"></ion-icon> Search history</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <!-- Clear the entire history -->
   <ion-button expand="full" color="danger" (click)="clearHistory()">Clear History</ion-button>
 
